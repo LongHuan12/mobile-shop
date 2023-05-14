@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop Project - Slider</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="../adminpublic/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/animate.css">
+    <link rel="stylesheet" href="../adminpublic/css/admin.css">
+    <link rel="stylesheet" href="../adminpublic/css/style.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../adminpublic/css/fontawesome.min.css">
+
+</head>
+
+<body>
+    
+    <%- include('../admin/partials/adminHeader'); %>
+
+    <div class="col-8 row mt-5">
+        <div class="list-group" id="listSlider">
+        </div>
+    </div>
+    <button class="btn btn-primary mt-5" id="btnAdd">Add</button>
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Slider</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Slider Title:</label>
+                        <input type="text" class="form-control" data-id="" id="sliderTitle" name="sliderTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Slider Sub Title:</label>
+                        <input type="text" class="form-control" data-id="" id="sliderSubTitle" name="sliderSubTitle"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Slider Description:</label>
+                        <textarea type="text" class="form-control" data-id="" id="sliderDes" name="sliderDes"></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <label>Image:</label>
+                        <div class="col-sm-10" style="display: none;">
+                            <img src="" alt="" id="imgSliderView" height="250px"/>
+                        </div>
+                        <div class="col-sm-10">
+                            <input id='silderimage' type="file" accept="image/png, image/jpeg, image/jpg, image/webp">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="addSlider()">OK</button>
+                    <button type="button" class="btn btn-danger" id="btnDeleteSlider" onclick="deleteSlider()">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../admin/partials/adminFooter'); %>
+    <%- include('../admin/partials/adminLoading'); %>
+
+        <!-- Start Script -->
+        <script src="../adminpublic/js/jquery-1.11.0.min.js"></script>
+        <script src="../adminpublic/js/jquery-migrate-1.2.1.min.js"></script>
+        <script src="../adminpublic/js/bootstrap.bundle.min.js"></script>
+        <script src="../adminpublic/js/adminscript.js"></script>
+        <script src="../adminpublic/js/loading.js"></script>
+        <!-- End Script -->
+        <script>
+            $(document).ready(function () {
+                getSlider();
+                $("#btnAdd").click(function () {
+                    $("#myModal").modal('show');
+                    document.getElementById("sliderSubTitle").value = ''
+                    document.getElementById("sliderTitle").value = ''
+                    document.getElementById("sliderDes").value = ''
+                    $('#imgSliderView').parent().hide();
+                    $("#sliderTitle").attr('data-id', '');
+                    $('#btnDeleteSlider').hide();
+                });
+                $('#liSlider').addClass('active')
+            });
+        </script>
+</body>
+
+</html>

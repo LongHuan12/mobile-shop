@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop - Order Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/cart-style.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <!--
+    
+TemplateMo 559 Zay Shop
+
+https://templatemo.com/tm-559-zay-shop
+
+-->
+</head>
+
+<body>
+    <style>
+        #orderStatus {
+            background-color: aqua;
+            border-radius: 5px;
+            height: 30px;
+            width: 50%;
+            text-align: center;
+        }
+    </style>
+
+    <%- include('../partials/headerTemp'); %>
+
+        <div class="container py-5">
+            <div class="row">
+                <div class="cart-table-area section-padding-100" style="width: 100%;max-width: 100%;">
+                    <div class="container-fluid">
+
+                        <div class="cart-title mt-50 mb-5">
+                            <span>Your Order: </span>
+                            <input type="text" class="form-control w-50 d-inline" id="ipOrderCode" />
+                            <button class="btn btn-primary" onclick="GetOder()">Find</button>
+                        </div>
+                        <div class="row" id="divOrderDetails">
+                            <div class="col-12 col-lg-8">
+
+
+                                <div class="cart-table clearfix">
+                                    <table class="table table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbOrderDetailBody">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <div class="cart-summary mt-0">
+                                    <h5>Cart Total</h5>
+                                    <ul class="summary-table">
+                                        <li><span>Total:</span> <span id="spanTotal"></span></li>
+                                        <li><span>Status:</span> <span class="" id="orderStatus">Free</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="divOrderNOtExist" style="display: none;">
+                            <p>Your Order Code does not exist! </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <%- include('../partials/footerTemp'); %>
+            <script id="order-product-template" type="x-tmpl-mustache">
+            <tr>
+               <td class="cart_product_img">
+                   <img class="img-thumbnail w75" src="{{image}}" alt="Product">
+               </td>
+               <td class="cart_product_desc">
+                   <h5>{{name}}</h5>
+               </td>
+               <td class="price">
+                   <span>${{price}}</span>
+               </td>
+               <td class="qty">
+                    <span>{{num}}</span>                   
+               </td>
+           </tr>
+          </script>
+            <!-- Start Script -->
+            <script src="js/jquery-1.11.0.min.js"></script>
+            <script src="js/jquery-migrate-1.2.1.min.js"></script>
+            <script src="js/bootstrap.bundle.min.js"></script>
+            <script src="js/templatemo.js"></script>
+            <script src="js/custom.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+            <script src="js/script.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    getOrderDetailsByCode();
+
+                })
+            </script>
+            <!-- End Script -->
+</body>
+
+</html>

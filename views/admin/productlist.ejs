@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop Project - Add Product</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="../adminpublic/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/admin.css">
+    <link rel="stylesheet" href="../adminpublic/css/style.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../adminpublic/css/fontawesome.min.css">
+
+</head>
+
+<body>
+
+    <%- include('../admin/partials/adminHeader'); %>
+
+        <div class="col-10 row mt-5 mx-5">
+            <table id="tbList" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <%- include('../admin/partials/adminFooter'); %>
+            <%- include('../admin/partials/adminLoading'); %>
+                <!-- Start Script -->
+                <script src="../adminpublic/js/jquery-1.11.0.min.js"></script>
+                <script src="../adminpublic/js/jquery-migrate-1.2.1.min.js"></script>
+                <script src="../adminpublic/js/bootstrap.bundle.min.js"></script>
+                <script src="../adminpublic/js/jquery.dataTables.min.js"></script>
+                <script src="../adminpublic/js/loading.js"></script>
+                <!-- End Script -->
+                <script>
+                    $(document).ready(function () {
+                        $('#liProduct').addClass('active')
+                        //Fill Data to Datatable id=tbList
+                        $('#tbList').DataTable({
+                            processing: true,
+                            responsive: true,
+                            //Call 'Get' Method to get all row in table tb_product
+                            ajax: {
+                                "url": "/admin/getProduct",
+                                "type": "GET",
+                                "dataSrc": ""
+                            },
+                            //Fill data each column
+                            columns: [
+                                {
+                                    data: null,
+                                    render: (data, type, row, meta) => meta.row + 1,
+                                },
+                                { data: 'ID' },
+                                { data: 'ProductName' },
+                                { data: 'BrandName' },
+                                { data: 'CategoryName' },
+                                { data: 'ImageUrl' },
+                                { data: 'Price' },
+                            ],
+                            //Modify column name and Image
+                            columnDefs: [
+                                //Show column name with <a> tag link to edit product
+                                {
+                                    render: function (data, type, row) {
+                                        console.log(row)
+                                        return '<a href="/admin/editproduct?ID=' + row.ID + '">' + unescape(data) + '</a>'
+                                    },
+                                    targets: 2,
+                                },
+                                { visible: false, targets: [1] },
+                                //Take first image is thumnail image
+                                {
+                                    render: function (data, type, row) {
+                                        var image1st = JSON.parse(data);
+                                        if (image1st != undefined && image1st.length > 0) {
+                                            imageUrl = image1st[0].image;
+                                            $.each(image1st, function (index, item) {
+                                                if (item.isThumb == '1')
+                                                    imageUrl = item.image;
+                                            })
+                                            return '<img src="../uploads/' + imageUrl + '" alt="" width="100" height="100">';
+                                        }
+                                        else
+                                            return "no image";
+                                    },
+                                    targets: 5,
+                                },
+                            ],
+                        });
+
+                    });
+                </script>
+</body>
+
+</html>

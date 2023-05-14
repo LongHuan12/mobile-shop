@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop Project - Edit Product</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="../adminpublic/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/admin.css">
+    <link rel="stylesheet" href="../adminpublic/css/style.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../adminpublic/css/fontawesome.min.css">
+
+</head>
+
+<body>
+
+    <%- include('../admin/partials/adminHeader'); %>
+
+        <div class="col-10 row mt-5 mx-5">
+            <form id="form" enctype="multipart/form-data">
+                <div class="col-md-12 justify-content-between">
+                    <div class="form-group row">
+                        <label for="proName" class="col-sm-2 col-form-label">Name: <span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proID" style="display: none;"
+                                value="<%=pro.ID%>" disabled>
+                            <input type="text" class="form-control" id="proName" value="<%=unescape(pro.ProductName)%>"
+                                placeholder="Type Product Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="proDescription" class="col-sm-2 col-form-label">Description:</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="proDescription"
+                                placeholder="Type Product Description"><%=unescape(pro.Description)%></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="proBrand" class="col-sm-2 col-form-label">Brand: <span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <select class="form-control" data-id="<%=pro.BrandID%>" name="pro[proType]" id="proBrand">
+                                <option value="" disabled selected>Select Product Brand</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="proCategory" class="col-sm-2 col-form-label">Category: <span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <select class="form-control"  data-id="<%=pro.CategoryID%>" name="pro[proType]" id="proCategory">
+                                <option value="" disabled selected>Select Product Category</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="proPrice" class="col-sm-2 col-form-label">Price: <span
+                                class="text-danger">*</span></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="proPrice" value="<%=pro.Price%>"
+                                placeholder="Enter Product Price">
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-5 mb-5">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h6 class="mb-0">
+
+                                        Product Images
+                                    </h6>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+
+                                        <%pro.ImageUrl.forEach(item=>{%>
+                                            <div class="col-lg-3 col-md-4 mb-4 mb-lg-0 d-inline-block">
+                                                <div class="d-flex shadow-1-strong align-items-end flex-column"
+                                                    style="background: url('/uploads/<%=item.image%>') 50% 50% no-repeat;height: 200px;background-size: contain;border: 2px solid #ababab;border-radius: 7px;">
+                                                    <a href="#!" data-value="<%=item.image%>""
+                                                class=" btn btn-danger btn-sm imgStill">X</a>
+                                                </div>
+                                                <div class="mt-auto p-2">
+                                                    <label>Make Thumnail Image</label>
+                                                    <input type="checkbox" data-ischeck="<%=item.isThumb%>"
+                                                        class="form-check-input checkMakeThumb" />
+                                                </div>
+
+                                            </div>
+                                            <%})%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="proImage" class="col-sm-2 col-form-label">Add Image:</label>
+                            <div class="col-sm-10">
+                                <input id='files' type="file" multiple
+                                    accept="image/png, image/jpeg, image/jpg, image/webp">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr" />
+                <div class="col-12">
+                    <input type="submit" class="btn btn-primary" id="btnEdit" value="Edit" />
+                    <a class="btn btn-danger float-right" href="#" id="btnDelete">Delete</a>
+                </div>
+            </form>
+        </div>
+        <%- include('../admin/partials/adminFooter'); %>
+            <%- include('../admin/partials/adminLoading'); %>
+                <!-- Start Script -->
+                <script src="../adminpublic/js/jquery-1.11.0.min.js"></script>
+                <script src="../adminpublic/js/jquery-migrate-1.2.1.min.js"></script>
+                <script src="../adminpublic/js/bootstrap.bundle.min.js"></script>
+                <script src="../adminpublic/js/adminscript.js"></script>
+                <script src="../adminpublic/js/loading.js"></script>
+                <!-- End Script -->
+                <script>
+                    const form = document.getElementById("form");
+
+                    form.addEventListener("submit", addProduct);
+                    $(document).ready(function () {
+
+                        $('#liProduct').addClass('active')
+                        getBrand($('#proBrand'));
+                        getCategory($('#proCategory'));
+                        $(".imgStill").click(function () {
+                            if (!confirm("Do you want to delete")) {
+                                return false;
+                            } else {
+                                deleteImage(this)
+                            }
+                        });
+                        $("#btnDelete").click(function () {
+                            if (!confirm("Do you want to delete this product")) {
+                                return false;
+                            } else {
+                                deleteProduct()
+                            }
+                        });
+                    });
+                    $(".checkMakeThumb").change(function () {
+                        var status = $(this).prop('checked');
+                        var checkbox = this;
+                        if (status) {
+                            $.each($(".checkMakeThumb"), function (index, item) {
+                                if (item != checkbox)
+                                    $(item).prop('checked', false);
+                            })
+                        }
+                    })
+                    $.each($(".checkMakeThumb"), function (index, item) {
+                        if ($(item).attr('data-ischeck') == '1')
+                            $(item).prop('checked', true)
+                    })
+                </script>
+</body>
+
+</html>

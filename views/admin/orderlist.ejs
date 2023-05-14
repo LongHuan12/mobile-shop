@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop Project - Order List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="../adminpublic/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../adminpublic/css/admin.css">
+    <link rel="stylesheet" href="../adminpublic/css/style.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="../adminpublic/css/fontawesome.min.css">
+
+</head>
+
+<body>
+
+    <%- include('../admin/partials/adminHeader'); %>
+
+        <div class="col-10 row mt-5 mx-5">
+            <table id="tbList" class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Payment Method</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="cart-details-Modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog" style="max-width: 80%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Order Details</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Customer Name:</label>
+                            <input type="text" class="form-control" data-id="" disabled id="cusName" name="cusName">
+                        </div>
+                        <div class="form-group">
+                            <label>Address:</label>
+                            <input type="text" class="form-control" data-id="" disabled id="address" name="address">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Product List</label>
+                            <table id="tbOrderDetails" class="table table-striped table-hover w-100">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">ProductName</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Total Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Price:</label>
+                            <input type="text" class="form-control" disabled data-id="" id="totalprice"
+                                name="totalprice">
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Method:</label>
+                            <input type="text" class="form-control" data-id="" disabled id="paymentMethod"
+                                name="paymentMethod">
+                        </div>
+                        <div class="form-group mt-3">
+                            <label>Status:</label>
+                            <button class="" style="pointer-events: none;"
+                                id="lbStatus"></button>
+                            <button type="button" class="btn btn-secondary" id="btnUpdatStatus"
+                                onclick="changeOrderStatus()">Update</button>
+                            <button type="button" class="btn btn-secondary" id="btnCancelStatus"
+                                onclick="cancelOrder()">Cancel Order</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include('../admin/partials/adminFooter'); %>
+            <!-- Start Script -->
+            <script src="../adminpublic/js/jquery-1.11.0.min.js"></script>
+            <script src="../adminpublic/js/jquery-migrate-1.2.1.min.js"></script>
+            <script src="../adminpublic/js/bootstrap.bundle.min.js"></script>
+            <script src="../adminpublic/js/jquery.dataTables.min.js"></script>
+            <script src="../adminpublic/js/adminscript.js"></script>
+            <!-- End Script -->
+            <script>
+                $(document).ready(function () {
+                    $('#liOrderList').addClass('active')
+                    //Fill Data to Datatable id=tbList
+                    $('#tbList').DataTable({
+                        processing: true,
+                        responsive: true,
+                        //Call 'Get' Method to get all row in table tb_product
+                        ajax: {
+                            "url": "/admin/getOrderList",
+                            "type": "GET",
+                            "dataSrc": ""
+                        },
+                        //Fill data each column
+                        columns: [
+                            {
+                                data: null,
+                                render: (data, type, row, meta) => meta.row + 1,
+                            },
+                            { data: 'ID' },
+                            { data: 'CustomerName' },
+                            { data: 'Address' },
+                            { data: 'TotalPrice' },
+                            { data: 'PaymentMethod' },
+                            { data: 'Status' },
+                        ],
+                        //Modify column name and Image
+                        columnDefs: [
+                            //Show column name with <a> tag link to edit product
+                            {
+                                render: function (data, type, row) {
+                                    return '<a href="#" onclick="ShowCartDetails(' + row.ID + ')">' + unescape(data) + '</a>'
+                                },
+                                targets: 2,
+                            },
+                            { visible: false, targets: [1] },
+                            //Get Payment Method Name
+                            {
+                                render: function (data, type, row) {
+                                    return getPaymentMethodName(data);
+                                },
+                                targets: 5,
+                            },
+                            {
+                                render: function (data, type, row) {
+                                    return '<button style="pointer-events: none;" class="' + getCssOrderStatus(data) + '">' + getOrderStatusName(data) + '</button>';
+                                },
+                                targets: 6,
+                            },
+                        ],
+                    });
+
+                });
+
+                $('#tbList').on('click', 'tbody tr', function () {
+                    currentTrSelected = $('#tbList tr').index(this);
+                });
+
+                $('#cart-details-Modal').on('hidden.bs.modal', function () {
+                    $('#tbOrderDetails').DataTable().clear().draw().destroy();
+                })
+                var currentTrSelected = 0;
+            </script>
+</body>
+
+</html>

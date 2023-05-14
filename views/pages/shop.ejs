@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Zay Shop - Product Listing Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+<!--
+    
+TemplateMo 559 Zay Shop
+
+https://templatemo.com/tm-559-zay-shop
+
+-->
+</head>
+
+<body>
+
+
+    <%- include('../partials/headerTemp'); %>
+
+
+
+    <!-- Start Content -->
+    <div class="container py-5">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <h1 class="h2 pb-4">Brand</h1>
+                <ul class="list-unstyled templatemo-accordion" id="liBrandShop">
+                    
+                </ul>
+                <h1 class="h2 pb-4">Categories</h1>
+                <ul class="list-unstyled templatemo-accordion" id="liCategoryShop">
+                    
+                </ul>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-6 pb-4">
+                        <div class="d-flex">
+                            <select class="form-control" onchange="viewBySort(this)">
+                                <option value="1">Featured</option>
+                                <option value="2">A to Z</option>
+                                <option value="3">Item</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="containProduct">
+                    
+                </div>
+                <div div="row">
+                    <ul class="pagination pagination-lg justify-content-end" id="pagingShop">
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Content -->
+
+    
+    <%- include('../partials/footerTemp'); %>
+
+    <script id="category-template" type="x-tmpl-mustache">
+        <li class="pb-3">
+            <a class="collapsed d-flex justify-content-between h3 text-decoration-none" data-id="{{ID}}" onclick="{{FunctionGen}}">
+                {{Name}}
+            </a>
+        </li>
+    </script>
+    <script id="paging-template" type="x-tmpl-mustache">
+        <li class="page-item">
+            <a class="page-link {{PageFocus}} rounded-0 mr-3 shadow-sm border-top-0 border-left-0" onclick="getProductByPage({{page}})" tabindex="-1">{{page}}</a>
+        </li>
+    </script>
+    <script id="product-template" type="x-tmpl-mustache">
+        <div class="col-md-4">
+            <div class="card mb-4 product-wap rounded-0">
+                <div class="card rounded-0">
+                    <img class="rounded-0 mx-auto my-3" src="/uploads/{{ImageUrl}}" style="max-height:300px;max-width:80%">
+                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                        <ul class="list-unstyled">
+                            <li><a class="btn btn-success text-white mt-2" href="detail?id={{ID}}"><i class="far fa-eye"></i></a></li>
+                            <li><a class="btn btn-success text-white mt-2" onclick="addToCart({{ID}})"><i class="fas fa-cart-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href="detail?id={{ID}}" class="h3 text-decoration-none">{{ProductName}}</a>
+                    <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                        
+                        <li class="pt-2">
+                            <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-light float-left rounded-circle ml-1"></span>
+                            <span class="product-color-dot color-dot-green float-left rounded-circle ml-1"></span>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                        <li>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-muted fa fa-star"></i>
+                            <i class="text-muted fa fa-star"></i>
+                        </li>
+                    </ul>
+                    <p class="text-center mb-0">${{Price}}</p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            getCategoryList();
+            getBrandList();
+            BindData();
+        })
+    </script>
+    <!-- End Script -->
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mobile Shop Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+    <!-- Load fonts style after rendering the layout styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+
+</head>
+
+<body>
+    <%- include('../partials/headerTemp'); %>
+
+
+
+    <%- include('../partials/SliderTop'); %>
+
+
+    
+
+
+    <!-- Start Featured Product -->
+    <section class="bg-light" id="homeProductShow">
+        
+    </section>
+    <!-- End Featured Product -->
+
+
+    <%- include('../partials/footerTemp'); %>
+
+    <script id="productCat-template" type="x-tmpl-mustache">
+            <div class="container py-5">
+                <div class="row text-center py-3">
+                    <div class="col-lg-6 m-auto">
+                        <h1 class="h1">{{BrandName}}</h1>
+                        <p>
+                            
+                        </p>
+                    </div>
+                </div>
+                <div class="row productShowByBrand" id="" data-id={{ID}}>
+                </div>
+            </div>
+    </script>
+    <script id="productItem-template" type="x-tmpl-mustache">
+        <div class="col-12 col-md-4 mb-4">
+            <div class="card h-100">
+                <a href="detail?id={{ID}}">
+                    <img src="./uploads/{{ImageUrl}}" class="mx-auto my-3 d-block" style="max-height:300px;max-width:400px" alt="...">
+                </a>
+                <div class="card-body">
+                    <ul class="list-unstyled d-flex justify-content-between">
+                        <li>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                            <i class="text-warning fa fa-star"></i>
+                        </li>
+                        <li class="text-muted text-right">${{Price}}</li>
+                    </ul>
+                    <a href="detail?id={{ID}}" class="h2 text-decoration-none text-dark">{{ProductName}}</a>
+                    <p class="card-text">
+                        {{Description}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Start Script -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/templatemo.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            getSlider();
+            getBrandHome();
+        })
+    </script>
+    <!-- End Script -->
+</body>
+
+</html>

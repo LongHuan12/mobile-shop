@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand navbar-light bg-light justify-content-between">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="liProduct" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/admin/productlist">Product List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/admin/addproduct">Add Product</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="liBrand" href="/admin/brand">Brand</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="liCategory" href="/admin/category">Category</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="liSlider" href="/admin/slider">Slider Home Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="liOrderList" href="/admin/orderlist">Order List</a>
+            </li>
+        </ul>
+        <form action="../admin/logout" method="get" class="form-inline" style="margin-left: auto;"><button
+                class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Logout</button></form>
+    </div>
+</nav>
